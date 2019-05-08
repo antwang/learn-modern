@@ -1,6 +1,12 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <ul>
+      <li class="ico ico-l1"></li>
+      <li class="ico ico-l2"></li>
+      <li class="ico ico-l3"></li>
+      <li class="ico ico-l4">a</li>
+    </ul>
     <router-view/>
   </div>
 </template>
@@ -15,6 +21,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "~sprite2.scss";
 $black: black;
 $yellow: yellow;
 
