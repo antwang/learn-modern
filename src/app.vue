@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <ul>
+    <ul class="country-list">
       <li class="ico ico-l1"></li>
       <li class="ico ico-l2"></li>
       <li class="ico ico-l3"></li>
-      <li class="ico ico-l4">a</li>
+      <li class="ico ico-l4"></li>
     </ul>
     <router-view/>
   </div>
@@ -30,6 +30,12 @@ h2 {
   color: $black;
   background: $yellow;
   text-align: center;
+}
+
+.country-list {
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
 </style>
 

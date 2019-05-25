@@ -1,4 +1,5 @@
 let api = {
   getUserInfo: "/api/getUserInfo"
 };
-module.exports = api;
+export default api;
+// module.exports = api;
