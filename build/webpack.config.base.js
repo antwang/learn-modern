@@ -5,7 +5,6 @@ const StyleLintPlugin = require("stylelint-webpack-plugin");
 const SpritesmithPlugin = require("webpack-spritesmith");
 // 雪碧图模板函数
 const templateFunction = require("./spriteFuncTemplate");
-
 module.exports = {
   entry: { app: path.resolve(__dirname, "../src/app.js") },
   output: {
@@ -15,6 +14,17 @@ module.exports = {
   },
   mode: "development",
   devtool: "eval-source-map",
+  devServer: {
+    proxy: {
+      "/api": "http://localhost:8081"
+    },
+    contentBase: path.resolve(__dirname, "../dist"),
+    hot: true,
+    compress: true,
+    overlay: true,
+    open: true,
+    port: 3000
+  },
   resolve: {
     modules: ["../node_modules", "../src/assets/generated"]
   },

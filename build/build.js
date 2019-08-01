@@ -7,7 +7,6 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const merge = require("webpack-merge");
 const argv = parseArgs(process.argv.slice(2));
 const { modern } = argv;
-// npm run build -- --modern --env dev
 
 // 配置babelloader
 const configureBabelLoader = browserlist => {
@@ -30,7 +29,7 @@ const configureBabelLoader = browserlist => {
             "@babel/preset-env",
             {
               modules: false,
-              corejs: "3.0.1",
+              corejs: "2",
               useBuiltIns: "usage",
               targets: {
                 browsers: browserlist
@@ -43,12 +42,13 @@ const configureBabelLoader = browserlist => {
   };
 };
 
+// 现代浏览器的配置文件
 const modernConf = merge(baseConf, {
   output: {
     filename: "modern-[name].js",
     path: path.resolve(__dirname, "../dist")
   },
-  plugins: [new ModernBuildPlugin({ modern: true })],
+  plugins: [new ModernBuildPlugin({ modern })],
   module: {
     rules: [
       configureBabelLoader([
@@ -66,16 +66,23 @@ const modernConf = merge(baseConf, {
     ]
   }
 });
+
+// 旧浏览器的配置文件
 const legacyConf = merge(baseConf, {
   output: {
     filename: "legacy-[name].js",
     path: path.resolve(__dirname, "../dist")
   },
-  plugins: [new ModernBuildPlugin({ modern: false }), new CleanWebpackPlugin()],
+  plugins: [
+    new ModernBuildPlugin({ isModernBuild: false }),
+    new CleanWebpackPlugin()
+  ],
   module: {
     rules: [configureBabelLoader(["> 1%", "last 2 versions", "Firefox ESR"])]
   }
 });
+
+// 不区分浏览器的配置文件
 const commonConf = merge(baseConf, {
   module: {
     rules: [configureBabelLoader()]
@@ -83,6 +90,7 @@ const commonConf = merge(baseConf, {
   plugins: [new CleanWebpackPlugin()]
 });
 
+// 调用webpack编译代码
 const createCompiler = config => {
   let compiler = webpack(config);
   return () => {
